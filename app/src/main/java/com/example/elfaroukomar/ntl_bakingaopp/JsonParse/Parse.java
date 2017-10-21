@@ -27,6 +27,7 @@ public class Parse {
          bakmodel.setId(jsonObject.getString("id"));
          bakmodel.setName(jsonObject.getString("name"));
          bakmodel.setServings(jsonObject.getString("servings"));
+
          ArrayList<Ingredients_Model>ingredients_models = new ArrayList<>();
 
          JSONArray ingred =jsonObject.getJSONArray("ingredients");
@@ -61,8 +62,8 @@ public class Parse {
 
          }
 
-         bakmodel.setSteps_models(steps_models);
-
+          bakmodel.setSteps_models(steps_models);
+         bakmodel.setImage(jsonObject.getString("image"));
          bakmodels.add(bakmodel);
 
      }

@@ -4,14 +4,25 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.example.elfaroukomar.ntl_bakingaopp.Step">
+<FrameLayout
+    android:layout_width="wrap_content"
+    android:layout_height="0dp"
+    android:layout_weight="1">
 
     <!-- TODO: Update blank fragment layout -->
-    <VideoView
+    <com.google.android.exoplayer2.ui.SimpleExoPlayerView
         android:id="@+id/videoView"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"/>
+    <ImageView
+        android:src="@drawable/pic1"
+        android:id="@+id/imageview"
+        android:visibility="invisible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
+    </FrameLayout>
     <TextView
 
         android:id="@+id/textviewdes"

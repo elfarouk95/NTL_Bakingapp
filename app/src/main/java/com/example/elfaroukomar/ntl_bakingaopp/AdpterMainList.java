@@ -1,5 +1,7 @@
 package com.example.elfaroukomar.ntl_bakingaopp;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.LayoutRes;
@@ -10,10 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.elfaroukomar.ntl_bakingaopp.Models.Bakmodel;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -47,6 +51,10 @@ public class AdpterMainList extends RecyclerView.Adapter<AdpterMainList.VH>  {
 
         holder.maintext.setText(bakmodels.get(position).getName());
         holder.subText.setText("Servings:"+bakmodels.get(position).getServings());
+        if (!bakmodels.get(position).getImage().equals(""))
+        {
+            Picasso.with(context).load(bakmodels.get(position).getImage()).into(holder.imageView);
+        }
     }
 
 
@@ -59,11 +67,21 @@ public class AdpterMainList extends RecyclerView.Adapter<AdpterMainList.VH>  {
 
         TextView maintext;
         TextView subText;
+        ImageView imageView;
         public VH(View itemView) {
             super(itemView);
             maintext=(TextView)itemView.findViewById(R.id.mainName);
             subText=(TextView)itemView.findViewById(R.id.subtext);
+            imageView=(ImageView)itemView.findViewById(R.id.imageview);
             itemView.setOnClickListener(this);
+        }
+        void update(String s)
+        {
+            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+            RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.baking_widget);
+            ComponentName thisWidget = new ComponentName(context,BakingWidget.class);
+            remoteViews.setTextViewText(R.id.appwidget_text, s);
+            appWidgetManager.updateAppWidget(thisWidget, remoteViews);
         }
 
         @Override

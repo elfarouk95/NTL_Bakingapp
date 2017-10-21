@@ -29,28 +29,42 @@ public class ingandsteplistfragment extends Fragment implements RvStepAdpter.Ite
         // Required empty public constructor
     }
 
+
     public ingandsteplistfragment(Context c, Bakmodel b) {
 
         context=c;
         bakmodel=b;
     }
 
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putSerializable("item",bakmodel);
+        outState.putInt("pos",positionIndex);
 
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState!=null)
+            positionIndex=savedInstanceState.getInt("pos");
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState!=null)bakmodel= (Bakmodel) savedInstanceState.getSerializable("item");
+        if (savedInstanceState != null){
+            bakmodel = (Bakmodel)
+                    savedInstanceState.getSerializable("item");
+
+                          }
     }
 
     TextView mingredients;
 
-    private String Convert(ArrayList<Ingredients_Model>ingredients_models)
+    public static String Convert(ArrayList<Ingredients_Model>ingredients_models)
     {
         String ing ="Ingredients List \n";
           String qty="";
@@ -70,6 +84,8 @@ public class ingandsteplistfragment extends Fragment implements RvStepAdpter.Ite
     }
     RecyclerView rvstep;
     RvStepAdpter rvStepAdpter;
+    LinearLayoutManager linearLayoutManager;
+    private static   int positionIndex ;
 
     @Nullable
     @Override
@@ -79,7 +95,7 @@ public class ingandsteplistfragment extends Fragment implements RvStepAdpter.Ite
         mingredients.setText(Convert(bakmodel.getIngredients_models()));
         rvstep =(RecyclerView)v.findViewById(R.id.RVSteps);
         rvStepAdpter = new RvStepAdpter(context,bakmodel.getSteps_models());
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false);
+        linearLayoutManager= new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false);
         rvstep.setLayoutManager(linearLayoutManager);
         rvstep.setAdapter(rvStepAdpter);
 
@@ -91,6 +107,19 @@ public class ingandsteplistfragment extends Fragment implements RvStepAdpter.Ite
         return v;
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        positionIndex= linearLayoutManager.findFirstVisibleItemPosition();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (positionIndex >1) {
+            linearLayoutManager.scrollToPositionWithOffset(positionIndex, 0);
+        }
+    }
 
     @Override
     public void onItemClick(View view, int position) {

@@ -3,7 +3,6 @@
     package="com.example.elfaroukomar.ntl_bakingaopp">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    
 
     <application
         android:allowBackup="true"
@@ -19,11 +18,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DetailsActivty" />
+        <activity
+            android:name=".DetailsActivty"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".StepsActivity"
             android:label="@string/title_activity_steps"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:parentActivityName=".DetailsActivty"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <receiver android:name=".BakingWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/baking_widget_info" />
+        </receiver>
     </application>
 
 </manifest>

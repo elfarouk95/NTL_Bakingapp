@@ -79,7 +79,8 @@ public class StepsActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+           Intent n = new Intent(this,MainActivity.class);
+            startActivity(n);
         }
 
         return super.onOptionsItemSelected(item);
